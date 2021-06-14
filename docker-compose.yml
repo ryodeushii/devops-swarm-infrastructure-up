@@ -1,0 +1,16 @@
+version: '3'
+services:
+  ci:
+    image: ci:latest
+    build: .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TRAEFIK_DOMAIN: traefik.sys.eugenek.pro
+      TRAEFIK_USERNAME: admin
+      TRAEFIK_PASSWORD: admin
+      PORTAINER_DOMAIN: portainer.sys.eugenek.pro
+      CERT_EMAIL: 3193631@gmail.com
+      MONITORING_DOMAIN: sys.eugenek.pro
+      MONITORING_USERNAME: admin
+      MONITORING_PASSWORD: admin
