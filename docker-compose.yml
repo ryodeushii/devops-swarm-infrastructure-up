@@ -1,11 +1,11 @@
-version: '3.8'
+version: "3.8"
 services:
   ci:
     image: ${CI_REGISTRY_IMAGE:-registry.sys.eugenek.pro/devops-ci}:${CI_TAG:-local}
     build: .
     environment:
-      PUBLIC_REGISTRY_USERNAME: ryodeushii
-      PUBLIC_REGISTRY_PASSWORD: Evgen576172395s
+      PUBLIC_REGISTRY_USERNAME: example
+      PUBLIC_REGISTRY_PASSWORD: example
 
       TRAEFIK_DOMAIN: traefik.sys.eugenek.pro
       TRAEFIK_USERNAME: admin
