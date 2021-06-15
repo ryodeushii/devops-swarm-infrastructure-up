@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-
 set -e # exit on errorset -e # exit on error
 
-DOMAIN="${MONITORING_DOMAIN:-sys.example.com}"
+DOMAIN="${REGISTRY_DOMAIN:-registry.sys.example.com}"
 ID=$(docker info -f '{{.Swarm.NodeID}}')
-USERNAME="${MONITORING_USERNAME:-admin}"
-PASSWORD="${MONITORING_PASSWORD:-admin}"
+USERNAME="${REGISTRY_USER:-admin}"
+PASSWORD="${REGISTRY_PASSWORD:-admin}"
 HASHED_PASSWORD=$(openssl passwd -apr1 $PASSWORD)
 
 
-echo "Base Domain for monitoring: ${DOMAIN}"
+echo "Domain for Registry: ${DOMAIN}"
 echo "Node ID: ${ID}"
 echo "USERNAME:${USERNAME}$ PASSWORD:${PASSWORD}$"
 
@@ -25,5 +24,5 @@ export ADMIN_PASSWORD=${PASSWORD}
 
 export HASHED_PASSWORD=${HASHED_PASSWORD}
 
-echo "Deploy Monitoring (swarmprom) stack"
-docker stack deploy --with-registry-auth -c swarmprom.yml swarmprom
+echo "Deploy Registry stack"
+docker stack deploy --with-registry-auth -c registry.yml registry

@@ -14,4 +14,4 @@ export DOMAIN=${DOMAIN}
 export NODE_ID=${ID}
 
 echo "Deploy Portainer stack"
-docker stack deploy -c portainer.yml portainer
+docker stack deploy --with-registry-auth -c portainer.yml portainer

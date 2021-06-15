@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  registry:
+    image: registry:2
+    build: .
+    networks:
+      - traefik-public
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.registry-http.rule=Host(`${DOMAIN?Variable not set}`)
+        - traefik.http.routers.registry-http.entrypoints=http
+        - traefik.http.routers.registry-http.middlewares=https-redirect
+        - traefik.http.routers.registry-https.rule=Host(`${DOMAIN?Variable not set}`)
+        - traefik.http.routers.registry-https.entrypoints=https
+        - traefik.http.routers.registry-https.tls=true
+        - traefik.http.routers.registry-https.tls.certresolver=le
+        - traefik.http.services.registry-https.loadbalancer.server.port=5000
+        - traefik.http.middlewares.registry-auth.basicauth.users=${ADMIN_USER?Variable not set}:${HASHED_PASSWORD?Variable not set}
+        - traefik.http.routers.registry-https.middlewares=registry-auth,traefik-compress
+networks:
+  traefik-public:
+    external: true

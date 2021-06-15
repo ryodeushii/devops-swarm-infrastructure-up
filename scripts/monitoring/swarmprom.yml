@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.8"
 
 networks:
   net:
@@ -234,4 +234,4 @@ services:
         - traefik.http.routers.swarmprom-prometheus-https.tls.certresolver=le
         - traefik.http.services.swarmprom-prometheus.loadbalancer.server.port=9090
         - traefik.http.middlewares.swarmprom-prometheus-auth.basicauth.users=${ADMIN_USER?Variable not set}:${HASHED_PASSWORD?Variable not set}
-        - traefik.http.routers.swarmprom-prometheus-https.middlewares=swarmprom-prometheus-auth,traefik-compresstraefik-compress
+        - traefik.http.routers.swarmprom-prometheus-https.middlewares=swarmprom-prometheus-auth,traefik-compress

@@ -1,11 +1,12 @@
-version: '3'
+version: '3.8'
 services:
   ci:
-    image: ci:latest
+    image: ${CI_REGISTRY_IMAGE:-registry.sys.eugenek.pro/devops-ci}:${CI_TAG:-local}
     build: .
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
     environment:
+      PUBLIC_REGISTRY_USERNAME: ryodeushii
+      PUBLIC_REGISTRY_PASSWORD: Evgen576172395s
+
       TRAEFIK_DOMAIN: traefik.sys.eugenek.pro
       TRAEFIK_USERNAME: admin
       TRAEFIK_PASSWORD: admin
@@ -14,3 +15,21 @@ services:
       MONITORING_DOMAIN: sys.eugenek.pro
       MONITORING_USERNAME: admin
       MONITORING_PASSWORD: admin
+      REGISTRY_DOMAIN: registry.sys.eugenek.pro
+      REGISTRY_USER: admin
+      REGISTRY_PASSWORD: admin
+      GITEA_DOMAIN: gitea.eugenek.pro
+      # SKIP CONFIG SECTIONS
+      # SKIP_TRAEFIK: "yes"
+      # SKIP_MONITORING: "yes"
+      # SKIP_PORTAINER: "yes"
+      # SKIP_REGISTRY: "yes"
+      # SKIP_GITEA: "yes"
+      # SKIP_UNISON: "yes"
+      # SKIP_SLEEP: "yes"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    # restart: on-failure
+    deploy:
+      restart_policy:
+        condition: none

@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
 
@@ -12,10 +12,14 @@ services:
     - target: 443
       published: 443
       mode: host
+    - target: 22
+      published: 22
+      mode: host
     deploy:
-      placement:
-        constraints:
-          - node.labels.traefik-public.traefik-public-certificates == true
+      mode: global
+      update_config:
+        parallelism: 1
+        delay: 2s
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
@@ -38,17 +42,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik-public-certificates:/certificates
     command:
-      # - --log.level=DEBUG
+      - --log.level=DEBUG
       - --providers.docker
       - --providers.docker.constraints=Label(`traefik.constraint-label`, `traefik-public`)
       - --providers.docker.exposedbydefault=false
       - --providers.docker.swarmmode
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
+      - --entrypoints.ssh.address=:22
       # TLS CONFIG
       - --certificatesresolvers.le.acme.tlschallenge=true
-      - --certificatesresolvers.le.acme.httpchallenge=true
-      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=http
+      - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.le.acme.email=${EMAIL?Variable not set}
       - --certificatesresolvers.le.acme.storage=/certificates/acme.json
       - --serversTransport.insecureSkipVerify=true
@@ -57,14 +61,18 @@ services:
       - --api
     networks:
       - traefik-public
+      - sync-net
 volumes:
   # Create a volume to store the certificates, there is a constraint to make sure
   # Traefik is always deployed to the same Docker node with the same volume containing
   # the HTTPS certificates
   traefik-public-certificates:
+    external: true
 
 networks:
   # Use the previously created public network "traefik-public", shared with other
   # services that need to be publicly available via this Traefik
   traefik-public:
+    external: true
+  sync-net:
     external: true

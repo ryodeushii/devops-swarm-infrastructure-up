@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    image: ${CI_REGISTRY_IMAGE:-registry.sys.eugenek.pro/devops-unison}:${CI_TAG:-local}
+    build: .
+    command:
+      - /bin/sh
+      - -c
+      - while true; do /usr/bin/unison . socket://agent:5000//data -auto -batch; done
+    volumes:
+      - traefik-public-certificates:/data/traefik-public-certificates
+      - gitea-data:/data/gitea-data
+    networks:
+      - sync-net
+  agent:
+    image: ${CI_REGISTRY_IMAGE:-registry.sys.eugenek.pro/devops-unison}:${CI_TAG:-local}
+    networks:
+      - sync-net
+    volumes:
+      - traefik-public-certificates:/data/traefik-public-certificates
+      - gitea-data:/data/gitea-data
+    deploy:
+      mode: global
+volumes:
+  traefik-public-certificates:
+    external: true
+  gitea-data:
+    external: true
+networks:
+  sync-net:
+    external: true

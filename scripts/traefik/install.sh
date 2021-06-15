@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-echo "Create external network for Traefik"
-docker network create --driver=overlay traefik-public
-
-
 set -e # exit on errorset -e # exit on error
 
 DOMAIN="${TRAEFIK_DOMAIN:-traefik.sys.example.com}"
@@ -17,8 +13,6 @@ echo "Domain for Traefik: ${DOMAIN}"
 echo "Node ID: ${ID}"
 echo "Cert Email: ${EMAIL}"
 echo "USERNAME: ${USERNAME}"
-echo "Tag node"
-docker node update --label-add traefik-public.traefik-public-certificates=true $ID
 
 echo "Export variables"
 export DOMAIN=${DOMAIN}
@@ -27,4 +21,4 @@ export EMAIL=${EMAIL}
 export USERNAME=${USERNAME}
 export HASHED_PASSWORD=${HASHED_PASSWORD}
 echo "Deploy Traefik stack"
-docker stack deploy -c traefik.yml traefik
+docker stack deploy --with-registry-auth -c traefik.yml traefik

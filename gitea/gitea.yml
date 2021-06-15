@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+
+  gitea:
+    image: gitea/gitea:1.14.2
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.gitea-http.rule=Host(`${DOMAIN?Variable not set}`)
+        - traefik.http.routers.gitea-http.entrypoints=http
+        - traefik.http.routers.gitea-http.middlewares=https-redirect
+        - traefik.http.routers.gitea-https.rule=Host(`${DOMAIN?Variable not set}`)
+        - traefik.http.routers.gitea-https.entrypoints=https
+        - traefik.http.routers.gitea-https.tls=true
+        - traefik.http.routers.gitea-https.tls.certresolver=le
+        - traefik.http.services.gitea-https.loadbalancer.server.port=3000
+        - traefik.http.routers.gitea-https.middlewares=traefik-compress
+        - traefik.tcp.routers.gitea-ssh.entrypoints=ssh
+        - traefik.tcp.routers.gitea-ssh.rule=HostSNI(`*`)
+        - traefik.tcp.routers.gitea-ssh.service=gitea-ssh
+        - traefik.tcp.services.gitea-ssh.loadbalancer.server.port=22
+    networks:
+      - traefik-public
+      - sync-net
+    volumes:
+      - gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+networks:
+  traefik-public:
+    external: true
+  sync-net:
+    external: true
+
+
+volumes:
+  gitea-data:
+    external: true
