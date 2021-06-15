@@ -1,24 +1,23 @@
 version: "3.8"
 services:
   ci:
-    image: ${CI_REGISTRY_IMAGE:-registry.sys.eugenek.pro/devops-ci}:${CI_TAG:-local}
+    image: ${CI_REGISTRY_IMAGE:-registry.sys.example.com/devops-ci}:${CI_TAG:-local}
     build: .
     environment:
-      PUBLIC_REGISTRY_USERNAME: example
-      PUBLIC_REGISTRY_PASSWORD: example
-
-      TRAEFIK_DOMAIN: traefik.sys.eugenek.pro
-      TRAEFIK_USERNAME: admin
-      TRAEFIK_PASSWORD: admin
-      PORTAINER_DOMAIN: portainer.sys.eugenek.pro
-      CERT_EMAIL: 3193631@gmail.com
-      MONITORING_DOMAIN: sys.eugenek.pro
-      MONITORING_USERNAME: admin
-      MONITORING_PASSWORD: admin
-      REGISTRY_DOMAIN: registry.sys.eugenek.pro
-      REGISTRY_USER: admin
-      REGISTRY_PASSWORD: admin
-      GITEA_DOMAIN: gitea.eugenek.pro
+      PUBLIC_REGISTRY_USERNAME: ${PUBLIC_REGISTRY_USERNAME:-test}
+      PUBLIC_REGISTRY_PASSWORD: ${PUBLIC_REGISTRY_PASSWORD:-test}
+      TRAEFIK_DOMAIN: ${TRAEFIK_DOMAIN:-traefik.sys.example.com}
+      TRAEFIK_USERNAME: ${TRAEFIK_USERNAME:-admin}
+      TRAEFIK_PASSWORD: ${TRAEFIK_PASSWORD:-admin}
+      PORTAINER_DOMAIN: ${PORTAINER_DOMAIN:-portainer.sys.example.com}
+      CERT_EMAIL: ${CERT_EMAIL:-3193631@gmail.com}
+      MONITORING_DOMAIN: ${MONITORING_DOMAIN:-sys.example.com}
+      MONITORING_USERNAME: ${MONITORING_USERNAME:-admin}
+      MONITORING_PASSWORD: ${MONITORING_PASSWORD:-admin}
+      REGISTRY_DOMAIN: ${REGISTRY_DOMAIN:-registry.sys.example.com}
+      REGISTRY_USER: ${REGISTRY_USER:-admin}
+      REGISTRY_PASSWORD: ${REGISTRY_PASSWORD:-admin}
+      GITEA_DOMAIN: ${GITEA_DOMAIN:-gitea.example.com}
       # SKIP CONFIG SECTIONS
       # SKIP_TRAEFIK: "yes"
       # SKIP_MONITORING: "yes"
