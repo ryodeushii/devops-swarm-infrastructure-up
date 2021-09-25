@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  ci:
+  infrastructure:
     image: ${CI_REGISTRY_IMAGE:-registry.sys.example.com/devops-ci}:${CI_TAG:-local}
     build: .
     environment:
@@ -23,7 +23,7 @@ services:
       # SKIP_MONITORING: "yes"
       # SKIP_PORTAINER: "yes"
       # SKIP_REGISTRY: "yes"
-      # SKIP_GITEA: "yes"
+      SKIP_GITEA: "yes"
       # SKIP_UNISON: "yes"
       # SKIP_SLEEP: "yes"
     volumes:
