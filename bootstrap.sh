@@ -16,7 +16,7 @@ echo
 #-----------------------------------------------------------------------------
 
 set -e # exit on error
-docker login -u ${PUBLIC_REGISTRY_USERNAME:-} -p ${PUBLIC_REGISTRY_PASSWORD:-}
+# docker login -u ${PUBLIC_REGISTRY_USERNAME:-} -p ${PUBLIC_REGISTRY_PASSWORD:-}
 
 echo "* Grant execution rights to all scripts"
 chmod +x scripts/**/*.sh
