@@ -6,7 +6,7 @@ services:
     command:
       - /bin/sh
       - -c
-      - while true; do /usr/bin/unison . socket://agent:5000//data -auto -batch; done
+      - while true; do /usr/bin/unison . socket://agent:5000//data -auto -batch; sleep 5s; done
     volumes:
       - traefik-public-certificates:/data/traefik-public-certificates
       - gitea-data:/data/gitea-data
