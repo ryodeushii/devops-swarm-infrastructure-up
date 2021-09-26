@@ -46,7 +46,7 @@ services:
       - --providers.docker.swarmmode
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
-      - --entrypoints.ssh.address=:22
+      # - --entrypoints.ssh.address=:22
       # TLS CONFIG
       - --certificatesresolvers.le.acme.tlschallenge=true
       - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
