@@ -12,6 +12,8 @@ services:
     - target: 443
       published: 443
       mode: host
+    environment:
+      CF_DNS_API_TOKEN: ${CF_DNS_API_TOKEN?Variable not set}
     deploy:
       mode: global
       update_config:
@@ -48,10 +50,12 @@ services:
       - --entrypoints.https.address=:443
       # - --entrypoints.ssh.address=:22
       # TLS CONFIG
-      - --certificatesresolvers.le.acme.httpchallenge=true
-      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
-      - --certificatesresolvers.le.acme.email=${EMAIL?Variable not set}
-      - --certificatesresolvers.le.acme.storage=/certificates/acme.json
+      # - --certificatesresolvers.le.acme.tlschallenge=true
+      # - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      # - --certificatesresolvers.le.acme.email=${EMAIL?Variable not set}
+      # - --certificatesresolvers.le.acme.storage=/certificates/acme.json
+      - --certificatesresolvers.le.acme.dnschallenge.provider=cloudflare
+
       - --serversTransport.insecureSkipVerify=true
       - --accesslog
       - --log
