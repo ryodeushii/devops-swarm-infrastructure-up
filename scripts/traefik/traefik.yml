@@ -3,8 +3,7 @@ version: '3.8'
 services:
 
   traefik:
-    # Use the latest v2.2.x Traefik image available
-    image: traefik:v2.2
+    image: traefik:v2.5
     ports:
     - target: 80
       published: 80
@@ -53,11 +52,11 @@ services:
       # TLS CONFIG
       # - --certificatesresolvers.le.acme.tlschallenge=true
       # - --certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
-      - --certificatesresolvers.le.acme.email=${EMAIL?Variable not set}
       - --certificatesresolvers.le.acme.dnschallenge=true
       - --certificatesresolvers.le.acme.dnschallenge.provider=cloudflare
+      - --certificatesresolvers.le.acme.email=${EMAIL?Variable not set}
       - --certificatesresolvers.le.acme.storage=/certificates/acme.json
-      - --serversTransport.insecureSkipVerify=true
+      # - --serversTransport.insecureSkipVerify=true
       - --accesslog
       - --log
       - --api
