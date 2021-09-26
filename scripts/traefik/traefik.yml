@@ -13,7 +13,7 @@ services:
       mode: host
     environment:
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_ACCOUNT_EMAIL_ADDRESS}
-      CLOUDFLARE_DNS_API_TOKEN: ${CF_DNS_API_TOKEN}
+      CF_API_KEY: ${CF_API_KEY}
     deploy:
       mode: global
       update_config:
