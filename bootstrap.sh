@@ -10,6 +10,8 @@ echo "1) Create external network for Traefik"
 docker network create --driver=overlay traefik-public
 echo "2)Create external network for Unison to sync through"
 docker network create --driver=overlay sync-net
+echo "3) Create external network for services communication (API, DB, etc)"
+docker network create --driver=overlay services
 
 echo "Networks setup complete!!"
 echo
